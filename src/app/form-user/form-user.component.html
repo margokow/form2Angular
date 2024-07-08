@@ -1,1 +1,7 @@
-<app-card-user [infos]="infos" (addUser)="addUser($event)"></app-card-user>
+<app-card-user
+  [infos]="infos"
+  [info]="info"
+  [submitted]="submitted"
+  (addUser)="addUser()"
+  (deleteUser)="deleteUser($event)">
+</app-card-user>

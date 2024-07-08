@@ -11,37 +11,19 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class CardUserComponent {
 
-  info: FormGroup = this.formBuilder.group({
-    nom: [''],
-    prenom: ['']
+    @Input() infos!: any[];
+    @Input() info!: FormGroup;
+    @Input() submitted!: boolean;
 
-  });
+    @Output() addUser: EventEmitter<any> = new EventEmitter<any>();
+    @Output() deleteUser: EventEmitter<number> = new EventEmitter<number>();
 
-  @Input()
-  infos!: any[];
-
-  @Output()
-  addUser: EventEmitter<any> = new EventEmitter<any>();
-
-  submitted: boolean = false;
-
-  constructor(private formBuilder: FormBuilder) {}
-
-  onSubmit() {
-    this.submitted = true;
-    if (this.info.invalid) {
-      return;
+    onSubmit() {
+      this.addUser.emit();
     }
-    this.addUser.emit(this.info.value);
-    this.info.reset();
-    this.submitted = false;
+
+    onDelete(index: number) {
+      this.deleteUser.emit(index);
+    }
   }
 
-  get form() {
-    return this.info.controls;
-  }
-
-  onDelete(index: number) {
-    this.infos.splice(index, 1);
-  }
-}

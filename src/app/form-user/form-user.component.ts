@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CardUserComponent } from '../card-user/card-user.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-form-user',
@@ -10,14 +10,28 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrl: './form-user.component.css'
 })
 export class FormUserComponent {
-
   infos: any[] = [];
+  info: FormGroup;
+  submitted: boolean = false;
 
-  addUser(user: any) {
-    this.infos.push(user);
+  constructor(private formBuilder: FormBuilder) {
+    this.info = this.formBuilder.group({
+      nom: [''],
+      prenom: [''],
+    });
   }
 
-  onDeleteUser(index: number) {
+  addUser() {
+    this.submitted = true;
+    if (this.info.invalid) {
+      return;
+    }
+    this.infos.push(this.info.value);
+    this.info.reset();
+    this.submitted = false;
+  }
+
+  deleteUser(index: number) {
     this.infos.splice(index, 1);
   }
 }
